@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'a_home',
     'a_users',
     'a_messageboard',
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 SITE_ID = 1
@@ -151,3 +153,28 @@ ACCOUNT_SIGNUP_REDIRECT_URL = "{% url 'account_signup' %}?next={% url 'profile-o
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
+
+
+#email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Your SMTP host
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "kunalarya88779@gmail.com"
+EMAIL_HOST_PASSWORD = ""
+EMAIL_USE_SSL = False
+
+#celery settings
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP= True
+CELERY_RESULT_BACKEND = 'django-db' #for storing celery data into our database and run cmd "migrate after adding this"
+CELERY_RESULT_EXTENDED = True
+
+# command to run celery "celery -A a_core worker -E -l info"
+
+#flower run cmd "celery -A a_core.celery_app flower"
+#
+
+
+
+#celery beat cmd celery -A a_core beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
